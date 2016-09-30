@@ -56,6 +56,12 @@ var conf = convict({
     }
   },
   scheduling: {
+    checkInterval: {
+      doc: 'Interval at which the Scheduler checks for tests to run (in milliseconds)',
+      format: Number,
+      default: 900000,
+      env: 'SCHEDULING_CHECK_INTERVAL'
+    },
     minimumInterval: {
       doc: 'Minimum interval allowed for scheduled tests (in hours)',
       format: Number,

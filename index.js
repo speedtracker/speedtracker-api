@@ -5,8 +5,30 @@ const cors = require('cors')
 const Database = require('./lib/Database')
 const express = require('express')
 const GitHub = require('./lib/GitHub')
-
+const Scheduler = require('./lib/Scheduler')
 const SpeedTracker = require('./lib/SpeedTracker')
+
+// ------------------------------------
+// Server
+// ------------------------------------
+
+const server = express()
+
+server.use(cors())
+
+// ------------------------------------
+// Scheduler
+// ------------------------------------
+
+let scheduler
+
+// ------------------------------------
+// GitHub
+// ------------------------------------
+
+const github = new GitHub()
+
+github.authenticate(config.get('githubToken'))
 
 // ------------------------------------
 // DB connection
@@ -18,40 +40,35 @@ let db = new Database(connection => {
   server.listen(config.get('port'), () => {
     console.log(`(*) Server listening on port ${config.get('port')}`)
   })
+
+  scheduler = new Scheduler({
+    db: connection,
+    remote: github
+  })
 })
-
-// ------------------------------------
-// Server
-// ------------------------------------
-
-const server = express()
-
-server.use(cors())
 
 // ------------------------------------
 // Endpoint: Test
 // ------------------------------------
 
 server.get('/v1/test/:user/:repo/:branch/:profile', (req, res) => {
-  const github = new GitHub()
-
-  github.authenticate(config.get('githubToken'))
-
   const speedtracker = new SpeedTracker({
     db,
     branch: req.params.branch,
     key: req.query.key,
     remote: github,
     repo: req.params.repo,
+    scheduler,
     user: req.params.user
   })
 
   let profileName = req.params.profile
 
   speedtracker.runTest(profileName).then(response => {
-    res.send(response)
+    res.send(JSON.stringify(response))
   }).catch(err => {
     console.log('** ERR:', err.stack || err)
+
     res.status(500).send(JSON.stringify(err))
   })
 })
