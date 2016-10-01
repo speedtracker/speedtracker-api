@@ -6,7 +6,7 @@ const email = (infractors, data) => {
   const body = `
     Hello,<br>
     <br>
-    The latest performance report on <a href="${data.config.url}/${data.profile._id}">${data.profile.name}</a> showed some performance metrics going over their configured budgets:<br>
+    The latest performance report on <a href="${data.config._url}/${data.profile._id}">${data.profile.name}</a> showed some performance metrics going over their configured budgets:<br>
     <br>
     <ul>
     ${infractors.map(infractor => {
@@ -17,7 +17,7 @@ const email = (infractors, data) => {
     }).join('')}
     </ul>
     <br>
-    <a href="${data.config.url}/${data.profile._id}">Click here</a> to see the full report.<br>
+    <a href="${data.config._url}/${data.profile._id}">Click here</a> to see the full report.<br>
     <br>
     ---
     <br>
