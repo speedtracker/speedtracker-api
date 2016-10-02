@@ -1,5 +1,6 @@
 'use strict'
 
+const Analytics = require('./lib/Analytics')
 const config = require('./config')
 const cors = require('cors')
 const Database = require('./lib/Database')
@@ -51,7 +52,7 @@ let db = new Database(connection => {
 // Endpoint: Test
 // ------------------------------------
 
-server.get('/v1/test/:user/:repo/:branch/:profile', (req, res) => {
+const testHandler = (req, res) => {
   const speedtracker = new SpeedTracker({
     db,
     branch: req.params.branch,
@@ -71,7 +72,10 @@ server.get('/v1/test/:user/:repo/:branch/:profile', (req, res) => {
 
     res.status(500).send(JSON.stringify(err))
   })
-})
+}
+
+server.get('/v1/test/:user/:repo/:branch/:profile', testHandler)
+server.post('/v1/test/:user/:repo/:branch/:profile', testHandler)
 
 // ------------------------------------
 // Endpoint: Connect
@@ -100,11 +104,31 @@ server.get('/v1/connect/:user/:repo', (req, res) => {
       return Promise.reject()
     }
   }).then((response) => {
+    // Track event
+    new Analytics().track(Analytics.Events.CONNECT)
+
     res.send('OK!')
   }).catch((err) => {
     res.status(500).send('Invitation not found.')
   })  
 })
+
+// ------------------------------------
+// Endpoint: Catch all
+// ------------------------------------
+
+server.all('*', (req, res) => {
+  const response = {
+    success: false,
+    error: 'INVALID_URL_OR_METHOD'
+  }
+
+  res.status(404).send(JSON.stringify(response))
+})
+
+// ------------------------------------
+// Basic error logging
+// ------------------------------------
 
 process.on('unhandledRejection', (error, promise) => {
   console.log(error.stack || error)

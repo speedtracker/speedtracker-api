@@ -68,6 +68,14 @@ var conf = convict({
       default: 12,
       env: 'SCHEDULING_MIN_INTERVAL'
     }
+  },
+  analytics: {
+    googleAnalyticsId: {
+      doc: 'Google Analytics account ID',
+      format: String,
+      default: null,
+      env: 'GOOGLE_ANALYTICS_ID'
+    }
   }
 })
 
