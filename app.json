@@ -1,0 +1,48 @@
+{
+  "name": "SpeedTracker API",
+  "description": "SpeedTracker API layer",
+  "repository": "https://github.com/speedtracker/speedtracker-api",
+  "logo": "https://speedtracker.org/assets/images/logo-square-inverted-transparent.png",
+  "website": "https://speedtracker.org",
+  "keywords": ["speedtracker", "webpagetest", "performance"],
+  "env": {
+    "NODE_ENV": {
+      "description": "The applicaton environment",
+      "value": "production"
+    },
+    "WPT_KEY": {
+      "description": "WPT API key"
+    },
+    "WPT_URL": {
+      "description": "WPT API URL",
+      "value": "https://www.webpagetest.org"
+    },
+    "GITHUB_TOKEN": {
+      "description": "GitHub access token"
+    },
+    "SPARKBOX_API_KEY": {
+      "description": "Sparkbox API key"
+    },
+    "MONGODB_URI": {
+      "description": "Mongo database connection URI"
+    },
+    "COLLECTION_REPOS": {
+      "description": "Name of the collection to be used for storing repositories",
+      "value": "st_repos"
+    },
+    "SCHEDULING_CHECK_INTERVAL": {
+      "description": "Interval at which the Scheduler checks for tests to run (in milliseconds)",
+      "value": 900000
+    },
+    "SCHEDULING_MIN_INTERVAL": {
+      "description": "Minimum interval allowed for scheduled tests (in hours)",
+      "value": 12
+    }
+  },
+  "addons": [
+    {
+      "plan": "mongolab:sandbox",
+      "as": "MONGODB"
+    }
+  ]
+}
