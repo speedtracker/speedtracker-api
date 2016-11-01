@@ -1,6 +1,6 @@
 {
-  "name": "speedtracker-app",
-  "version": "1.0.0",
+  "name": "speedtracker-api",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
