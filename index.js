@@ -82,7 +82,7 @@ server.post('/v1/test/:user/:repo/:branch/:profile', testHandler)
 // ------------------------------------
 
 server.get('/v1/connect/:user/:repo', (req, res) => {
-  const github = new GitHub()
+  const github = new GitHub(GitHub.GITHUB_CONNECT)
 
   github.authenticate(config.get('githubToken'))
 
@@ -103,12 +103,14 @@ server.get('/v1/connect/:user/:repo', (req, res) => {
     } else {
       return Promise.reject()
     }
-  }).then((response) => {
+  }).then(response => {
     // Track event
     new Analytics().track(Analytics.Events.CONNECT)
 
     res.send('OK!')
-  }).catch((err) => {
+  }).catch(err => {
+    console.log(err.stack || err)
+
     res.status(500).send('Invitation not found.')
   })  
 })
