@@ -76,6 +76,12 @@ var conf = convict({
       default: null,
       env: 'GOOGLE_ANALYTICS_ID'
     }
+  },
+  raygunApiKey: {
+    doc: 'Raygun API key',
+    format: String,
+    default: '',
+    env: 'RAYGUN_APIKEY'
   }
 })
 

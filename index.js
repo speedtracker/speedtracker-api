@@ -4,6 +4,7 @@ const Analytics = require('./lib/Analytics')
 const config = require('./config')
 const cors = require('cors')
 const Database = require('./lib/Database')
+const ErrorHandler = require('./lib/ErrorHandler')
 const express = require('express')
 const GitHub = require('./lib/GitHub')
 const Scheduler = require('./lib/Scheduler')
@@ -68,7 +69,7 @@ const testHandler = (req, res) => {
   speedtracker.runTest(profileName).then(response => {
     res.send(JSON.stringify(response))
   }).catch(err => {
-    console.log('** ERR:', err.stack || err)
+    ErrorHandler.log('RUN_TEST', err)
 
     res.status(500).send(JSON.stringify(err))
   })
@@ -109,7 +110,7 @@ server.get('/v1/connect/:user/:repo', (req, res) => {
 
     res.send('OK!')
   }).catch(err => {
-    console.log(err.stack || err)
+    ErrorHandler.log('CONNECT', err)
 
     res.status(500).send('Invitation not found.')
   })  
@@ -125,6 +126,8 @@ server.all('*', (req, res) => {
     error: 'INVALID_URL_OR_METHOD'
   }
 
+  ErrorHandler.log('UNKNOWN_ENDPOINT', null, req.url)
+
   res.status(404).send(JSON.stringify(response))
 })
 
@@ -133,5 +136,5 @@ server.all('*', (req, res) => {
 // ------------------------------------
 
 process.on('unhandledRejection', (error, promise) => {
-  console.log(error.stack || error)
+  ErrorHandler.log('CATCH_ALL', error)
 })
