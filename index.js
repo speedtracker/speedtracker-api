@@ -69,7 +69,7 @@ const testHandler = (req, res) => {
   speedtracker.runTest(profileName).then(response => {
     res.send(JSON.stringify(response))
   }).catch(err => {
-    ErrorHandler.log('RUN_TEST', err)
+    ErrorHandler.log(err)
 
     res.status(500).send(JSON.stringify(err))
   })
@@ -110,7 +110,7 @@ server.get('/v1/connect/:user/:repo', (req, res) => {
 
     res.send('OK!')
   }).catch(err => {
-    ErrorHandler.log('CONNECT', err)
+    ErrorHandler.log(err)
 
     res.status(500).send('Invitation not found.')
   })  
@@ -126,7 +126,7 @@ server.all('*', (req, res) => {
     error: 'INVALID_URL_OR_METHOD'
   }
 
-  ErrorHandler.log('UNKNOWN_ENDPOINT', null, req.url)
+  ErrorHandler.log(req.url)
 
   res.status(404).send(JSON.stringify(response))
 })
@@ -136,5 +136,5 @@ server.all('*', (req, res) => {
 // ------------------------------------
 
 process.on('unhandledRejection', (error, promise) => {
-  ErrorHandler.log('CATCH_ALL', error)
+  ErrorHandler.log(error)
 })
