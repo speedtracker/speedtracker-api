@@ -136,5 +136,5 @@ server.all('*', (req, res) => {
 // ------------------------------------
 
 process.on('unhandledRejection', (error, promise) => {
-  ErrorHandler.log(error)
+  ErrorHandler.log(error.reason)
 })
