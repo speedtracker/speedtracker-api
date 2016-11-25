@@ -69,7 +69,7 @@ const testHandler = (req, res) => {
   speedtracker.runTest(profileName).then(response => {
     res.send(JSON.stringify(response))
   }).catch(err => {
-    ErrorHandler.log(err, req)
+    ErrorHandler.log(err)
 
     res.status(500).send(JSON.stringify(err))
   })
