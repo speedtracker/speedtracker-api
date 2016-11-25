@@ -69,7 +69,7 @@ const testHandler = (req, res) => {
   speedtracker.runTest(profileName).then(response => {
     res.send(JSON.stringify(response))
   }).catch(err => {
-    ErrorHandler.log(err)
+    ErrorHandler.log(err, req)
 
     res.status(500).send(JSON.stringify(err))
   })
@@ -136,5 +136,5 @@ server.all('*', (req, res) => {
 // ------------------------------------
 
 process.on('unhandledRejection', (error, promise) => {
-  ErrorHandler.log(error)
+  ErrorHandler.log(error.reason)
 })
