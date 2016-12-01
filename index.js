@@ -19,6 +19,16 @@ const server = express()
 server.use(cors())
 
 // ------------------------------------
+// Block list
+// ------------------------------------
+
+let blockList = []
+
+try {
+  blockList = require('./blocklist.json')
+} catch (err) {}
+
+// ------------------------------------
 // Scheduler
 // ------------------------------------
 
@@ -54,6 +64,13 @@ let db = new Database(connection => {
 // ------------------------------------
 
 const testHandler = (req, res) => {
+  // Abort if user is blocked
+  if (blockList.indexOf(req.params.user) !== -1) {
+    ErrorHandler.log(`Request blocked for user ${req.params.user}`)
+
+    return res.status(429).send()
+  }
+
   const speedtracker = new SpeedTracker({
     db,
     branch: req.params.branch,
