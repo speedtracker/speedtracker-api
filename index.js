@@ -19,16 +19,6 @@ const server = express()
 server.use(cors())
 
 // ------------------------------------
-// Block list
-// ------------------------------------
-
-let blockList = []
-
-try {
-  blockList = require('./blocklist.json')
-} catch (err) {}
-
-// ------------------------------------
 // Scheduler
 // ------------------------------------
 
@@ -64,6 +54,8 @@ let db = new Database(connection => {
 // ------------------------------------
 
 const testHandler = (req, res) => {
+  const blockList = config.get('blockList').split(',')
+
   // Abort if user is blocked
   if (blockList.indexOf(req.params.user) !== -1) {
     ErrorHandler.log(`Request blocked for user ${req.params.user}`)
