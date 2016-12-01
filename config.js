@@ -82,6 +82,12 @@ var conf = convict({
     format: String,
     default: '',
     env: 'RAYGUN_APIKEY'
+  },
+  blockList: {
+    doc: 'Comma-separated list of GitHub usernames to block',
+    format: String,
+    default: '',
+    env: 'BLOCK_LIST'
   }
 })
 
