@@ -3,6 +3,7 @@
 const Analytics = require('./lib/Analytics')
 const config = require('./config')
 const cors = require('cors')
+const crypto = require('crypto')
 const Database = require('./lib/Database')
 const ErrorHandler = require('./lib/ErrorHandler')
 const express = require('express')
@@ -126,6 +127,35 @@ server.get('/v1/connect/:user/:repo', (req, res) => {
 })
 
 // ------------------------------------
+// Endpoint: Encrypt
+// ------------------------------------
+
+server.get('/encrypt/:key/:text?', (req, res) => {
+  const key = req.params.key
+  const text = req.params.text || req.params.key
+
+  const cipher = crypto.createCipher('aes-256-ctr', key)
+  let encrypted = cipher.update(decodeURIComponent(text), 'utf8', 'hex')
+
+  encrypted += cipher.final('hex')
+
+  res.send(encrypted)
+})
+
+// ------------------------------------
+// Endpoint: Decrypt
+// ------------------------------------
+
+server.get('/decrypt/:key/:text?', (req, res) => {
+  const decipher = crypto.createDecipher('aes-256-ctr', req.params.key)
+  let decrypted = decipher.update(req.params.text, 'hex', 'utf8')
+
+  decrypted += decipher.final('utf8')
+
+  res.send(decrypted)
+})
+
+// ------------------------------------
 // Endpoint: Catch all
 // ------------------------------------
 
@@ -134,8 +164,6 @@ server.all('*', (req, res) => {
     success: false,
     error: 'INVALID_URL_OR_METHOD'
   }
-
-  ErrorHandler.log(req.url)
 
   res.status(404).send(JSON.stringify(response))
 })
