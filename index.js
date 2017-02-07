@@ -172,6 +172,8 @@ server.all('*', (req, res) => {
 // Basic error logging
 // ------------------------------------
 
-process.on('unhandledRejection', (error, promise) => {
-  ErrorHandler.log(error.reason)
+process.on('unhandledRejection', (reason, promise) => {
+  if (reason) {
+    ErrorHandler.log(reason)  
+  }
 })
