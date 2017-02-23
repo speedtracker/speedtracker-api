@@ -37,15 +37,22 @@ You need to install [Node.js](https://nodejs.org/en/), `npm` and [MongoDB](https
 
 1. Create a file called `config.{ENVIRONMENT}.json` (e.g. `config.development.json`) with the following structure:
 
-  ```json
+  ```js
   {
-    "port": 1234, // The port to run the API on (e.g. 8080)
+    // The port to run the API on (e.g. 8080)
+    "port": 1234, 
+    
+    // Your WebPageTest API key
     "wpt": {
-      "key": "abcdefg" // Your WebPageTest API key
+      "key": "abcdefg"
     },
-    "githubToken": "abcdefg" // Your GitHub personal access token,
+    
+    // Your GitHub personal access token
+    "githubToken": "abcdefg",
+    
+    // MongoDB database connection URI
     "database": {
-      "uri": "mongodb://localhost:27017/speedtracker" // MongoDB database connection URI
+      "uri": "mongodb://localhost:27017/speedtracker"
     }
   }
   ```
