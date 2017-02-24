@@ -60,8 +60,11 @@ const testHandler = (req, res) => {
   // Abort if user is blocked
   if (blockList.indexOf(req.params.user) !== -1) {
     ErrorHandler.log(`Request blocked for user ${req.params.user}`)
+    
+    const template = require(__dirname + '/templates/blocklist.status.js')
+    const blockListTemplate = template(req)
 
-    return res.status(429).send()
+    return res.status(blockListTemplate.statusCode).send(blockListTemplate.body)
   }
 
   const speedtracker = new SpeedTracker({
