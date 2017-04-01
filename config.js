@@ -88,6 +88,12 @@ var conf = convict({
     format: String,
     default: '',
     env: 'BLOCK_LIST'
+  },
+  pagespeedApiKey: {
+    doc: 'Google PageSpeed Insights API key',
+    format: String,
+    default: '',
+    env: 'PAGESPEED_API_KEY'
   }
 })
 
