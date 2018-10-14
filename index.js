@@ -70,6 +70,7 @@ const testHandler = (req, res) => {
     key: req.query.key,
     remote: github,
     repo: req.params.repo,
+    vertical: req.params.vertical,
     scheduler,
     user: req.params.user
   })
@@ -87,6 +88,9 @@ const testHandler = (req, res) => {
 
 server.get('/v1/test/:user/:repo/:branch/:profile', testHandler)
 server.post('/v1/test/:user/:repo/:branch/:profile', testHandler)
+
+server.get('/v1/test/:user/:repo/:branch/:vertical/:profile', testHandler)
+server.post('/v1/test/:user/:repo/:branch/:vertical/:profile', testHandler)
 
 // ------------------------------------
 // Endpoint: Connect

@@ -26,7 +26,7 @@ const email = (infractors, data) => {
 
   return {
     body,
-    sender: 'SpeedTracker <noreply@speedtracker.org>',
+    sender: 'SpeedTracker <speedtracker.quikr.com@quikr.com>',
     subject: `Performance report for ${data.profile.name}`
   }
 }
