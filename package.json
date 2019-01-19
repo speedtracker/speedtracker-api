@@ -10,6 +10,7 @@
   "author": "Eduardo Boucas <mail@eduardoboucas.com> (https://eduardoboucas.com/)",
   "license": "ISC",
   "dependencies": {
+    "@octokit/rest": "^16.10.0",
     "@slack/client": "^3.6.0",
     "body-parser": "^1.15.2",
     "convict": "^1.4.0",
